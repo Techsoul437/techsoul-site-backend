@@ -24,7 +24,7 @@ app.use(cors({
 app.use(express.urlencoded({ extended: false }));
 dotenv.config();
 const PORT = process.env.PORT || 8000;
-const MONGOURL = process.env.MONGO_URL || 'mongodb://localhost:27017/TechsoulSolutions';
+const MONGOURL = process.env.MONGO_URL || 'mongodb+srv://malaviyajasmin4:Techsoul123@techsoulsolutions.bea8mic.mongodb.net/TechsoulSolutions';
 console.log("🔍 MongoDB URL:", process.env.MONGO_URL);
 
 app.use("/admin", adminRoute)
