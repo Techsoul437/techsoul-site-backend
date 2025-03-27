@@ -36,6 +36,10 @@ export const signIn = async (req, res) => {
         });
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).json({
+            response: 500,
+            msg: 'Server Error',
+            success: false,
+        });
     }
 };

@@ -13,6 +13,7 @@ import faqDepartmentRoute from "./routes/faqDepartmentRoute.js";
 import inquiryRoute from "./routes/inquiryRoute.js";
 import jobsRoute from "./routes/jobsRoute.js";
 import jobApplicationRoute from "./routes/jobApplicationRoute.js";
+import subscriberRoute from "./routes/subscriberRoute.js";
 
 const app = express();
 
@@ -25,7 +26,6 @@ app.use(express.urlencoded({ extended: false }));
 dotenv.config();
 const PORT = process.env.PORT || 8000;
 const MONGOURL = process.env.MONGO_URL || 'mongodb+srv://malaviyajasmin4:Techsoul123@techsoulsolutions.bea8mic.mongodb.net/TechsoulSolutions';
-console.log("🔍 MongoDB URL:", process.env.MONGO_URL);
 
 app.use("/admin", adminRoute)
 app.use("/blog", blogRoute)
@@ -35,6 +35,7 @@ app.use("/faqDepartment", faqDepartmentRoute)
 app.use("/inquiry", inquiryRoute)
 app.use("/job", jobsRoute)
 app.use("/jobApplication", jobApplicationRoute)
+app.use("/subscribe", subscriberRoute)
 
 app.get('/', (req, res) => {
   res.send("TechSoul's backend is up and running!");
