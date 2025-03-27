@@ -25,6 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 dotenv.config();
 const PORT = process.env.PORT || 8000;
 const MONGOURL = process.env.MONGO_URL || 'mongodb://localhost:27017/TechsoulSolutions';
+console.log("🔍 MongoDB URL:", process.env.MONGO_URL);
 
 app.use("/admin", adminRoute)
 app.use("/blog", blogRoute)
@@ -51,5 +52,6 @@ mongoose
     console.error('❌ Database Connection Error:', err);
     process.exit(1);
   });
+
 
 export default app;
