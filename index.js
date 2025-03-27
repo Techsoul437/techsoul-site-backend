@@ -36,6 +36,10 @@ app.use("/inquiry", inquiryRoute)
 app.use("/job", jobsRoute)
 app.use("/jobApplication", jobApplicationRoute)
 
+app.get('/', (req, res) => {
+  res.send("TechSoul's backend is up and running!");
+});
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
