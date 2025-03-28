@@ -14,6 +14,7 @@ import inquiryRoute from "./routes/inquiryRoute.js";
 import jobsRoute from "./routes/jobsRoute.js";
 import jobApplicationRoute from "./routes/jobApplicationRoute.js";
 import subscriberRoute from "./routes/subscriberRoute.js";
+import portfolioRoute from "./routes/portfolioRoute.js";
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use("/inquiry", inquiryRoute)
 app.use("/job", jobsRoute)
 app.use("/jobApplication", jobApplicationRoute)
 app.use("/subscribe", subscriberRoute)
+app.use("/portfolio", portfolioRoute)
 
 app.get('/', (req, res) => {
   res.send("TechSoul's backend is up and running!");
