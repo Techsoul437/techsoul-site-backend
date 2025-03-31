@@ -1,4 +1,4 @@
-import Portfolio from '../model/portfolioModel.js';
+import { Portfolio, PortfolioSection } from '../model/portfolioModel.js';
 
 export const createPortfolio = async (req, res) => {
     const { banner, logo, asset, section, title, duration, type, description } = req.body;
@@ -46,6 +46,7 @@ export const createPortfolio = async (req, res) => {
 export const getAllPortfolios = async (req, res) => {
     try {
         const { search, section, type } = req.body;
+        const limit = req.body.limit;
 
         let filter = {};
 
@@ -64,13 +65,16 @@ export const getAllPortfolios = async (req, res) => {
             filter.type = type;
         }
 
-        const portfolios = await Portfolio.find(filter);
+        const portfolios = await Portfolio.find(filter)
+            .limit(limit)
+
         if (search && portfolios.length === 0) {
             return res.status(200).json({
                 response: 200,
                 msg: "No results found",
                 success: false,
                 data: [],
+                total: await portfolios.countDocuments(),
             });
         }
 
@@ -193,6 +197,197 @@ export const deletePortfolio = async (req, res) => {
             msg: 'Portfolio deleted successfully',
             success: true,
         });
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({
+            response: 500,
+            msg: 'Server Error',
+            success: false,
+        });
+    }
+};
+
+export const createPortfolioSection = async (req, res) => {
+    const { name } = req.body;
+
+    try {
+        if (!name) {
+            return res.status(400).json({
+                response: 400,
+                msg: 'Section name is required',
+                success: false,
+            });
+        }
+        const existingSection = await PortfolioSection.findOne({ name });
+
+        if (existingSection) {
+            return res.status(400).json({
+                response: 400,
+                msg: 'Section already exists',
+                success: false,
+            });
+        }
+
+        const newSection = new PortfolioSection({ name });
+        await newSection.save();
+
+        return res.status(200).json({
+            response: 200,
+            msg: 'Section created successfully',
+            success: true,
+            data: newSection,
+        });
+
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({
+            response: 500,
+            msg: 'Server Error',
+            success: false,
+        });
+    }
+};
+
+export const getAllPortfolioSection = async (req, res) => {
+    try {
+        const sections = await PortfolioSection.find();
+
+        if (sections.length === 0) {
+            return res.status(200).json({
+                response: 200,
+                msg: 'No Sections found',
+                success: false,
+                data: [],
+            });
+        }
+
+        return res.status(200).json({
+            response: 200,
+            msg: 'Sections fetched successfully',
+            success: true,
+            data: sections,
+        });
+
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({
+            response: 500,
+            msg: 'Server Error',
+            success: false,
+        });
+    }
+};
+
+export const getPortfolioSectionById = async (req, res) => {
+    try {
+        if (!req.params.id) {
+            return res.status(404).json({
+                response: 404,
+                msg: 'id not found',
+                success: false,
+            });
+        }
+        const sections = await PortfolioSection.findById(req.params.id);
+
+        if (!sections) {
+            return res.status(404).json({
+                response: 404,
+                msg: 'Sections not found',
+                success: false,
+            });
+        }
+
+        return res.status(200).json({
+            response: 200,
+            msg: 'Sections fetched successfully',
+            success: true,
+            data: sections,
+        });
+
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({
+            response: 500,
+            msg: 'Server Error',
+            success: false,
+        });
+    }
+};
+
+export const updatePortfolioSection = async (req, res) => {
+    const { name } = req.body;
+
+    try {
+        if (!req.params.id) {
+            return res.status(404).json({
+                response: 404,
+                msg: 'id not found',
+                success: false,
+            });
+        }
+        if (!name) {
+            return res.status(400).json({
+                response: 400,
+                msg: 'Sections name is required',
+                success: false,
+            });
+        }
+
+        const sectionsToUpdate = await PortfolioSection.findById(req.params.id);
+
+        if (!sectionsToUpdate) {
+            return res.status(404).json({
+                response: 404,
+                msg: 'Sections not found',
+                success: false,
+            });
+        }
+
+        sectionsToUpdate.name = name;
+        await sectionsToUpdate.save();
+
+        return res.status(200).json({
+            response: 200,
+            msg: 'Section updated successfully',
+            success: true,
+            data: sectionsToUpdate,
+        });
+
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({
+            response: 500,
+            msg: 'Server Error',
+            success: false,
+        });
+    }
+};
+
+export const deletePortfolioSection = async (req, res) => {
+    try {
+        if (!req.params.id) {
+            return res.status(404).json({
+                response: 404,
+                msg: 'id not found',
+                success: false,
+            });
+        }
+        const sections = await PortfolioSection.findByIdAndDelete(req.params.id);
+
+        if (!sections) {
+            return res.status(404).json({
+                response: 404,
+                msg: 'Sections not found',
+                success: false,
+            });
+        }
+
+        return res.status(200).json({
+            response: 200,
+            msg: 'Section deleted successfully',
+            success: true,
+        });
+
     } catch (err) {
         console.error(err.message);
         return res.status(500).json({

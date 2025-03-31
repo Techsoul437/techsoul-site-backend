@@ -6,7 +6,7 @@ const portfolioSchema = new mongoose.Schema({
         required: true,
     },
     logo: {
-        type: String, 
+        type: String,
         required: true,
     },
     asset: {
@@ -14,11 +14,11 @@ const portfolioSchema = new mongoose.Schema({
         required: true,
     },
     section: {
-        type: String, 
+        type: String,
         required: true,
     },
     title: {
-        type: String, 
+        type: String,
         required: true,
     },
     duration: {
@@ -35,4 +35,19 @@ const portfolioSchema = new mongoose.Schema({
     },
 });
 
-export default mongoose.model('Portfolio', portfolioSchema);
+
+const portfolioSectionSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+    },
+}, {
+    timestamps: true,
+});
+
+const Portfolio = mongoose.model('Portfolio', portfolioSchema);
+const PortfolioSection = mongoose.model('Section', portfolioSectionSchema);
+
+export { Portfolio, PortfolioSection };

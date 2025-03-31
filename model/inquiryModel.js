@@ -25,6 +25,10 @@ const inquirySchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    isRead: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 export default mongoose.model('Inquiry', inquirySchema);

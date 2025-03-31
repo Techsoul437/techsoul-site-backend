@@ -119,3 +119,44 @@ export const deleteInquiry = async (req, res) => {
         });
     }
 };
+
+export const updateInquiry = async (req, res) => {
+    const { isRead } = req.body;
+
+    try {
+        if (!req.params.id) {
+            return res.status(404).json({
+                response: 404,
+                msg: 'id not found',
+                success: false,
+            });
+        }
+
+        const inquiryToUpdate = await Inquiry.findById(req.params.id);
+
+        if (!inquiryToUpdate) {
+            return res.status(404).json({
+                response: 404,
+                msg: 'Inquiry not found',
+                success: false,
+            });
+        }
+
+        const updatedInquiry = await Inquiry.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+        return res.status(200).json({
+            response: 200,
+            msg: 'Inquiry updated successfully',
+            success: true,
+            data: updatedInquiry,
+        });
+
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).json({
+            response: 500,
+            msg: 'Server Error',
+            success: false,
+        });
+    }
+};
