@@ -41,20 +41,6 @@ const jobApplicationSchema = new mongoose.Schema(
         "Over 15 Years",
       ],
     },
-    currentCTC: {
-      type: Number,
-    },
-    currentCTCRate: {
-      type: String,
-      enum: ["Per hour", "Per day", "Per week", "Per month", "Per year"],
-    },
-    expectedCTC: {
-      type: Number,
-    },
-    expectedCTCRate: {
-      type: String,
-      enum: ["Per hour", "Per day", "Per week", "Per month", "Per year"],
-    },
     currentLocation: {
       type: String,
       required: true,
