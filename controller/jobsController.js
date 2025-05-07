@@ -1,10 +1,10 @@
 import Job from '../model/jobsModel.js';
 
 export const createJob = async (req, res) => {
-    const { title, time, experience, opening } = req.body;
+    const { title, time, experience, opening, keyResponsibilities, skills } = req.body;
 
     try {
-        if (!title || !time || !experience || !opening) {
+        if (!title || !time || !experience || !opening || !keyResponsibilities || !skills) {
             return res.status(400).json({
                 response: 400,
                 msg: 'All fields are required',
@@ -17,6 +17,8 @@ export const createJob = async (req, res) => {
             time,
             experience,
             opening,
+            keyResponsibilities,
+            skills
         });
 
         await newJob.save(); 
@@ -98,7 +100,7 @@ export const getJobById = async (req, res) => {
 
 export const updateJob = async (req, res) => {
     const { id } = req.params;
-    const { title, time, experience, opening } = req.body;
+    const { title, time, experience, opening, keyResponsibilities, skills } = req.body;
 
     try {
         const job = await Job.findById(id);
@@ -111,7 +113,7 @@ export const updateJob = async (req, res) => {
             });
         }
 
-        const updatedJob = await Job.findByIdAndUpdate(id, { title, time, experience, opening }, { new: true });
+        const updatedJob = await Job.findByIdAndUpdate(id, { title, time, experience, opening, keyResponsibilities, skills }, { new: true });
 
         return res.status(200).json({
             response: 200,

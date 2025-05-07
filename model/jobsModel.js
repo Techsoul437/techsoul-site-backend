@@ -18,6 +18,14 @@ const jobSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    keyResponsibilities: {
+      type: Array,
+      required: true,
+    },
+    skills: {
+      type: Array,
+      required: true,
+    },
     datePosted: {
       type: Date,
       default: Date.now,
